@@ -11,6 +11,16 @@
     <modules>
         <module>MyBatisSource</module>
         <module>CAS</module>
+        <module>MySQL</module>
+        <module>Spring</module>
+        <module>Redis</module>
+        <module>Oracle</module>
+        <module>Linux</module>
+        <module>MyBatis</module>
+        <module>Tomcat</module>
+        <module>Nginx</module>
+        <module>JVM</module>
+        <module>Increase</module>
     </modules>
 
 
