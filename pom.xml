@@ -22,6 +22,7 @@
         <module>Increase</module>
         <module>MQ</module>
         <module>tools</module>
+        <module>nacos</module>
     </modules>
 
 
