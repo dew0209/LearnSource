@@ -36,12 +36,50 @@ package com.dew.godl.increase.jmm;
  *  		两个操作之间存在happens-before关系，并不意味着一定要按照happens-before原则制定的顺序去执行。
  *  			如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法
  *  	8条：
- *  		1.
+ *  		1.次序规则
+ *  			一个线程内部，按照代码顺序，写在前面的操作优先发生于写在后面的操作
+ *  			注意：一个线程内部
+ *  		2.锁定规则：
+ *  			一个unlock操作先行发生于后面（（这里的后面是指时间上的先后））对同一个锁的lock操作
+ *  		3.volatile变量规则：
+ *  			对于一个volatile变量的写操作先行发生于后面对这个变量的读操作，前面的写对后面的读是可见的，这里的后面同样是指时间上的先后
+ *  		4.传递规则：
+ *  			如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C
+ *  		5.线程启动规则：
+ *				线程对象的start()方法先行发生于此线程的每一个动作
+ *			6.线程中断规则：
+ *				对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生
+ *				可以通过Thread.interrupted()检测是否发生中断
+ *				也就是说你先要调用interrupt()方法设置过中断标志位，我才能检测到中断发生
+ *			7.线程终止规则：
+ *				线程中的所有操作都先行发生于对此线程的终止检测，我们可以通过isAlive()等手段检测线程是否已经终止执行
+ *			8.对象总结规则：
+ *				一个对象的初始化完成（构造函数执行结束）先行发生于它的finalize()方法的开始
+ *	happens-before的语义本质上是一种可见性
  *
  */
 public class Base {
-	public static void main(String[] args) {
+	static Object objectLock = new Object();
 
+	private volatile int value = 0;
+
+	public static void main(String[] args) {
+		//对于同一把锁objectLock，threadA一定先unlock同一把锁后threadB才能获得该锁，A先行于B
+		synchronized (objectLock){
+
+		}
+		Thread t1 = new Thread(() -> {
+			System.out.println("------hello thread t1");
+		}, "t1");
+		t1.start();
+	}
+
+	public int getValue(){
+		return value;//利用volatile保证读取操作的可见性
+	}
+
+	public synchronized int setValue(){
+		return ++value;//利用synchronized保证复合操作的原子性
 	}
 
 }
