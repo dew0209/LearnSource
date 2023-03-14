@@ -46,4 +46,5 @@ package com.dew.godl.increase.volatiledemo;
  *			在每个volatile写操作的后面插入一个storeload屏障：作用是避免volatile写与后面可能有的volatile读/写操作重排序
  **/
 public class Base {
+
 }
