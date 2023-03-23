@@ -1,3 +1,7 @@
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,32 +14,18 @@ import java.util.Arrays;
  * @description
  */
 public class Main {
-	public static void main(String[] args) {
-		int[] arr = {1,1,2,2,3,17,18,19,19,20,20,20};
-		//标记
-		int[] state = new int[arr.length];
-		//所需的和值
-		int target = 20;
-		//结果集
-		ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-		ArrayList<Integer> ans = new ArrayList<>();
-		//排序
-		Arrays.sort(arr);
-		for(int i = 0;i < arr.length;i++){
-			if(state[i] == 1)continue;
-			getNumByTotal(arr,0,target,i,res,ans,state);
+	public static void main(String[] args) throws IOException {
+		File file = new File("D:\\test2\\150301199811285326\\2023-03-16\\1510202303_11609306_安徽精检分析测试有限公司.pdf");
+		FileInputStream in = new FileInputStream(file);
+		ByteArrayOutputStream ps = new ByteArrayOutputStream();
+		byte[] load = new byte[1024];
+		int len = 1;
+		while((len = in.read(load)) != -1){
+			ps.write(load,0,len);
 		}
-		System.out.println("=====输出结果=====");
-		System.out.println("=====结果数量为：" + res.size());
-		System.out.println("======组合如下：");
-		for(int i = 0;i < res.size();i++){
-			ArrayList<Integer> list = res.get(i);
-			for(int j = 0;j < list.size();j++){
-				System.out.print(list.get(j) + " ");
-			}
-			System.out.println();
-		}
-
+		in.close();
+		ps.close();
+		System.out.println(Arrays.toString(ps.toByteArray()));
 	}
 	public static int getNumByTotal(int[] q, int sum, int target, int index, ArrayList<ArrayList<Integer>> res,ArrayList<Integer> ans,int[] state){
 		//剪枝

@@ -1,6 +1,7 @@
 package com.dew.godl.increase.cas.cas;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 /**
  * CAS：compare and swap 比较交换
@@ -28,11 +29,75 @@ import java.util.concurrent.atomic.AtomicInteger;
  *				cas是靠硬件实现的从而在硬件层面提升效率，最底层还是交给硬件来保证原子性和可见性
  *				实现方式是基于硬件平台的汇编指令，在intel的cpu上（x86），使用的是cmpxchg指令
  *				核心思想就是：比较要更新的变量值v和预期值e，相等才会将v的值设为新值n，如果不相等自旋再来
+ *
+ *	cas带来的问题：
+ *		1.长时间等待
+ *		2.aba问题：版本号 AtomicStampedReference
  */
 public class Base {
 	public static void main(String[] args) {
-		AtomicInteger num = new AtomicInteger(5);
+		/*AtomicInteger num = new AtomicInteger(5);
 		boolean b = num.compareAndSet(5, 2020);
+		System.out.println(b);*/
+
+		Book javaBook = new Book(1, "java");
+		AtomicStampedReference<Book> ref = new AtomicStampedReference<>(javaBook, 1);
+		System.out.println(ref.getReference() + "\t" + ref.getStamp());
+		Book mysql = new Book(2,"mysql");
+		boolean b = ref.compareAndSet(javaBook, mysql, ref.getStamp(), ref.getStamp() + 1);
 		System.out.println(b);
+		System.out.println(ref.getReference() + "\t" + ref.getStamp());
+		boolean c = ref.compareAndSet(mysql, javaBook, ref.getStamp(), ref.getStamp() + 1);
+		System.out.println(c);
+		System.out.println(ref.getReference() + "\t" + ref.getStamp());
+
+
+	}
+}
+
+class Book{
+	private int id;
+	private String bookName;
+
+	public Book(int id, String bookName) {
+		this.id = id;
+		this.bookName = bookName;
+	}
+
+	/**
+	 * @return id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return bookName
+	 */
+	public String getBookName() {
+		return bookName;
+	}
+
+	/**
+	 * @param bookName
+	 */
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Book{");
+		sb.append("id=").append(id);
+		sb.append(", bookName='").append(bookName).append('\'');
+		sb.append('}');
+		return sb.toString();
 	}
 }
