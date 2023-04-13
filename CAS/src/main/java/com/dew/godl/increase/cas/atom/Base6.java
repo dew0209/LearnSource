@@ -17,6 +17,18 @@ import java.util.concurrent.atomic.LongAdder;
  * 			getProbe()：获取当前线程的hash值
  * 			advanceProbe()：重置当前线程的hash值
  * 		Striped64里面有个cell
+ *
+ * 		AtomicLong  CAS	自旋，空转率增加，cpu负担加大
+ * 		LongAdder	cas分散窗口 多窗口 res = base + cell数组 上述两者全部为计算结果
+ * 		原理：
+ * 			LongAdder的基本思路就是分散热点，将value值分散到一个cell数组，不同线程会命中到数组的不同槽中，各个线程只对自己槽中的那个值进行cas操作，
+ * 			这样热点就被分散了，冲突的概率就减小很多了，如果要获取真正的long值，只要将各个槽中的变量值累加返回。
+ *
+ * 		步骤：
+ * 			1.最初无竞争时只更新base
+ * 			2.如果更新base失败后，首次新建一个cell[]数组
+ * 			3.当多个线程竞争同一个cell比较激烈的时候，可能就要对cell进行扩容了
+ *
  */
 public class Base6 {
 
