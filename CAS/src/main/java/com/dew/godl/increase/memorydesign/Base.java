@@ -20,7 +20,13 @@ package com.dew.godl.increase.memorydesign;
  *			虚拟机要求对对象起始地址必须是8字节的整数倍。填充数据不是必须存在的，仅仅是为了字节对齐，这部分内存按8字节补充对齐
  *
  *
- *
+ *	对象标记详解：
+ *		hash：保存对象的哈希码
+ *		age：保存对象的分代年龄
+ *		biased_lock：偏向锁标识位
+ *		lock：锁状态标识位
+ *		java thread*：保存持有偏向锁的线程id
+ *		epoch：保存偏向时间戳
  */
 public class Base {
 	public static void main(String[] args) {
