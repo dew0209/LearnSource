@@ -42,4 +42,26 @@ public class ItemVo<T> implements Delayed {
 	public T getDate() {
 		return date;
 	}
+
+
+
+	public static String handleInterfaceDate(String invoiceDate) {
+		String invoiceStr = null;
+
+		//过滤字符串中的汉字
+		invoiceDate = invoiceDate.replaceAll("[\\u4e00-\\u9fa5]", "");
+		if(invoiceDate.contains("-")){
+			invoiceDate = invoiceDate.replace("-","");
+		}
+		if(invoiceDate.length()>8){
+			invoiceStr = invoiceDate.substring(0,8);
+		}else{
+			invoiceStr = invoiceDate;
+		}
+		return invoiceStr;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(handleInterfaceDate("2023年07月20日"));
+	}
 }
