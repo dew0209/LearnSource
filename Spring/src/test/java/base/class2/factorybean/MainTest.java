@@ -24,7 +24,9 @@ public class MainTest {
 		//注意类型是base.class1.entity.Monkey
 		Object bean1 = app.getBean("customFactoryBean");
 		Object bean2 = app.getBean("customFactoryBean");
+		Object bean3 = app.getBean("&customFactoryBean");
 		System.out.println(bean1.getClass());
+		System.out.println(bean3.getClass());
 		System.out.println(bean1 == bean2);
 	}
 

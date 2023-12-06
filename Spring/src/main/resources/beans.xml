@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- 默认要有无参构造 -->
-    <bean id="dog" class="base.class1.entity.Dog">
+    <!-- init-method="" 初始化方法 destroy-method="" 销毁方法 -->
+    <bean id="dog" class="base.class1.entity.Dog" init-method="" destroy-method="">
         <property name="age" value="18" />
         <property name="name" value="xiaohei" />
     </bean>
