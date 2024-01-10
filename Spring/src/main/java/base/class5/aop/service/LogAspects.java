@@ -11,6 +11,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 /**
  * 日志切面类的方法需要动态感知到div()方法运行
  * 		通知方法：
@@ -36,7 +38,7 @@ public class LogAspects {
 
 	}
 
-	@Before("pointCut()")
+	@Before(value = "pointCut()")
 	public void logStart(){
 		System.out.println("---logStart---");
 	}
@@ -46,21 +48,22 @@ public class LogAspects {
 		System.out.println("---logEnd---");
 	}
 
-	@AfterReturning("pointCut()")
+	@AfterReturning(value = "pointCut()")
 	public void logReturn(){
 		System.out.println("---logReturn---");
 	}
 
-	@AfterThrowing("pointCut()")
-	public void logException(){
-		System.out.println("---logException---");
+	@AfterThrowing(value = "pointCut()",throwing = "exception")
+	public void logException(Exception exception){
+		System.out.println("---logException---" + exception);
 	}
 
 	@Around("pointCut()")
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-		System.out.println("---around---start");
+		Object[] args = joinPoint.getArgs();
+		System.out.println("---around---start---" + Arrays.toString(args));
 		Object res = joinPoint.proceed();
-		System.out.println("---around---end");
+		System.out.println("---around---end---" + res);
 		return res;
 	}
 }

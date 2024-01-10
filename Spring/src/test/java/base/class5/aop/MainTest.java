@@ -19,7 +19,7 @@ public class MainTest {
 	public void div(){
 		AnnotationConfigApplicationContext app = new AnnotationConfigApplicationContext(MainConfig.class);
 		CalcService bean = app.getBean(CalcService.class);
-		System.out.println(bean.div(10,2));;
+		System.out.println(bean.div(40,20));;
 	}
 
 }
