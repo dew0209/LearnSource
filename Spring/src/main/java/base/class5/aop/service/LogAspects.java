@@ -1,6 +1,7 @@
 package base.class5.aop.service;
 
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -39,8 +40,8 @@ public class LogAspects {
 	}
 
 	@Before(value = "pointCut()")
-	public void logStart(){
-		System.out.println("---logStart---");
+	public void logStart(JoinPoint joinPoint){
+		System.out.println(joinPoint.getSignature().getName() + "---logStart---");
 	}
 
 	@After("pointCut()")
@@ -48,9 +49,9 @@ public class LogAspects {
 		System.out.println("---logEnd---");
 	}
 
-	@AfterReturning(value = "pointCut()")
-	public void logReturn(){
-		System.out.println("---logReturn---");
+	@AfterReturning(value = "pointCut()",returning = "result")
+	public void logReturn(Object result){
+		System.out.println("---logReturn---" + result);
 	}
 
 	@AfterThrowing(value = "pointCut()",throwing = "exception")
