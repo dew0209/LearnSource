@@ -5,6 +5,8 @@ import base.class5.aop.service.CalcService;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.time.LocalDate;
+
 /**
  * Copyright (c) by [安徽航天信息]
  *
@@ -17,9 +19,8 @@ public class MainTest {
 
 	@Test
 	public void div(){
-		AnnotationConfigApplicationContext app = new AnnotationConfigApplicationContext(MainConfig.class);
-		CalcService bean = app.getBean(CalcService.class);
-		System.out.println(bean.div(40,20));;
+		String s = "1";
+		s.contains(null);
 	}
 
 }
