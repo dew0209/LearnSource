@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="settings/db.properties">
+        <!-- 这个优先级最低，如果有其他地方配置，对应属性就会被覆盖 -->
+        <property name="jdbc_url" value="jdbc:mysql://198.0.0.1:3306/abtest"/>
+    </properties>
+
+    <typeAliases>
+        <package name="settings.entity"/>
+        <!--        <typeAlias type="settings.entity.User"/>-->
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc_driver}"/>
+                <property name="url" value="${jdbc_url}"/>
+                <property name="username" value="${jdbc_username}"/>
+                <property name="password" value="${jdbc_password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper class="settings.mapper.UserMapper"/>
+    </mappers>
+</configuration>
