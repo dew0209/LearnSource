@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="settings.mapper.UserMapperTypeHandleEnum">
+
+    <resultMap id="baseResult" type="settings.entity.UserTypeHandleEnum">
+        <result column="source" property="source"  typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    </resultMap>
+
+    <insert id="insert1">
+
+        insert into user values (#{handleEnum.id},#{handleEnum.name},#{handleEnum.nikename},#{handleEnum.psw},#{handleEnum.status},
+                                #{handleEnum.mail},#{handleEnum.phone},#{handleEnum.type},now(),now(),now(),0,#{handleEnum.bindPostion},#{handleEnum.salt},#{handleEnum.source})
+
+    </insert>
+    <select id="getById" resultType="settings.entity.UserTypeHandleEnum">
+        select * from user where id = #{id}
+    </select>
+
+
+    <insert id="insert2">
+
+        insert into user values (#{handleEnum.id},#{handleEnum.name},#{handleEnum.nikename},#{handleEnum.psw},#{handleEnum.status},
+                                #{handleEnum.mail},#{handleEnum.phone},#{handleEnum.type},now(),now(),now(),0,#{handleEnum.bindPostion},#{handleEnum.salt},#{handleEnum.source,typeHandler=org.apache.ibatis.type.EnumTypeHandler})
+
+    </insert>
+    <select id="getById2" resultMap="baseResult">
+        select * from user where id = #{id}
+    </select>
+
+
+</mapper>
