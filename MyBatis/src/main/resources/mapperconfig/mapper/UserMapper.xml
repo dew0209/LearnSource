@@ -2,6 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mapperconfig.mapper.UserMapper">
 
+	<resultMap id="BaseResultMap" type="mapperconfig.entity.User">
+		<constructor>
+			<idArg column="id" javaType="string"/>
+			<arg column="mail" javaType="string"/>
+		</constructor>
+
+	</resultMap>
+
+	<resultMap id="BaseResultMap2" type="mapperconfig.entity.User">
+		<constructor>
+			<arg column="mail" javaType="string"/>
+			<arg column="id" javaType="string"/>
+		</constructor>
+	</resultMap>
+
+	<resultMap id="BaseResultMap3" type="mapperconfig.entity.User">
+		<constructor>
+			<arg column="mail" name="mail"/>
+			<arg column="id" name="id"/>
+		</constructor>
+		<id column="name" property="name" />
+		<result column="type" property="type" />
+	</resultMap>
+
+	<resultMap id="BaseResultMap4" type="mapperconfig.entity.User">
+		<constructor>
+			<arg column="mail" name="mail"/>
+			<arg column="type" name="type"/>
+		</constructor>
+		<id column="id" property="id" />
+	</resultMap>
+
+
+
 	<select id="selectById" resultType="mapperconfig.entity.User" parameterType="string">
 		select * from user where id = #{id}
 	</select>
@@ -19,5 +53,10 @@
 	<select id="selectByDTOBase" resultType="mapperconfig.entity.User">
 		select * from user where name like concat('%',#{param3.name},'%') and mail like concat('%',#{param2},'%')
 	</select>
+
+	<select id="selectByIdUserResultMapArg" resultMap="BaseResultMap4" parameterType="string">
+		select * from user where id = #{id}
+	</select>
+
 
 </mapper>

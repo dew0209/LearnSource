@@ -70,4 +70,17 @@ public class MapperConfigTest {
         System.out.println("使用多个参数直接传参查询结果：" + mapper.selectByDTOBase("张三","111",queryUserDTO));
     }
 
+    @SneakyThrows
+    @Test
+    public void run04(){
+        System.out.println("测试resultMap的子元素constructor");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        System.out.println("结果：" + mapper.selectByIdUserResultMapArg("1"));
+    }
+
 }

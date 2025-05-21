@@ -20,4 +20,6 @@ public interface UserMapper {
 
     List<User> selectByDTOBase(String name,String mail,QueryUserDTO dto);
 
+    List<User> selectByIdUserResultMapArg(String id);
+
 }
