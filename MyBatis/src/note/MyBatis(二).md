@@ -268,3 +268,42 @@ setProperties(Properties properties)
 ## databaseIdProvider
 
 暂不研究，一般数据源都交给`spring`管理了，等集成`spring`在看看
+
+## mappers
+
+**方式一：**
+
+```xml
+<!-- 使用相对于类路径的资源引用 -->
+<mappers>
+  <mapper resource="settings/mapper/UserMapper.xml"/>
+</mappers>
+```
+
+**方式二：**
+
+```xml
+<!-- 使用完全限定资源定位符（URL） -->
+<mappers>
+    <mapper url="file:///D:/workspace/workspaceideaj/LearnSource/MyBatis/src/main/resources/settings/mapper/UserMapper.xml"/>
+</mappers>
+```
+
+**方式三：**
+
+```xml
+<!-- 使用映射器接口实现类的完全限定类名 -->
+<mappers>
+    <mapper class="settings.mapper.UserMapper"/>
+</mappers>
+```
+
+**方式四：**
+
+```xml
+<!-- 将包内的映射器接口全部注册为映射器 -->
+<mappers>
+  <package name="org.mybatis.builder"/>
+</mappers>
+```
+
