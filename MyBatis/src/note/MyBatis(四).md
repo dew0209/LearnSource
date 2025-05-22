@@ -110,7 +110,9 @@ public User(String id, String mail) {
 
 [示例](../main/java/mapperconfig/mapper/UserMapper.java) 中的selectByIdUserResultMapArg
 
-其中，idArg必须是第一个（官方说可以提升性能，我暂时不清楚。）。我一般都用来在主键上使用。
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run04
+
+其中，idArg必须是第一个。我一般都用来在主键上使用。
 
 如果修改下位置，那么
 
@@ -177,3 +179,81 @@ jdbcType：sql中的字段类型
 ```
 
 并不需要把所有的映射关系全部写出来，没有写的将做自动映射。但是推荐写，因为这样bean和mapper文件解耦。
+
+## insert, update 和 delete
+
+### id
+
+官方定义：在命名空间中唯一的标识符，可以被用来引用这条语句。
+
+就是在mapper文件中的方法名。
+
+### parameterType
+
+传入参数的类型
+
+### useGeneratedKeys和keyProperty
+
+useGeneratedKeys:（仅适用于 insert 和 update）这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键
+
+keyProperty:（仅适用于 insert 和 update）指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或 insert 语句的 selectKey 子元素设置它的值。insert 语句的 selectKey 子元素设置keyProperty是在子元素上设置
+
+[示例](../main/java/mapperconfig/mapper/UserMapper.java) 中的inseret0和inseret1
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run05和run06
+
+### selectKey
+
+`selectKey`的用法看[示例](../main/java/mapperconfig/mapper/UserMapper.java) 中的inseret3，其属性order="BEFORE"看情况，我本地MySql是BEFORE，具体是BEFORE还是AFTER看数据库执行语句和回填结果。我觉得Mysql是BEFORE，Oracle是AFTER。官方解释：可以设置为 `BEFORE` 或 `AFTER`。如果设置为 `BEFORE`，那么它首先会生成主键，设置 `keyProperty` 再执行插入语句。如果设置为 `AFTER`，那么先执行插入语句，然后是 `selectKey` 中的语句 - 这和 Oracle 数据库的行为相似，在插入语句内部可能有嵌入索引调用。
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run07
+
+看[示例](../main/java/mapperconfig/mapper/UserMapper.java) 中的inseret4。如果是多个字段，经过测试，设计的比较怪，`keyColumn`，`keyProperty`，`sql中的字段名字`三者必须要一致。一方不一样都报错。例如：
+
+```xml
+<insert id="inseret4">
+   <selectKey keyProperty="id,descM" keyColumn="id,desc_m" resultType="mybatisTest" order="BEFORE">
+      select  id + 20 as id,desc_m from mybatisTest where id = 147
+   </selectKey>
+   insert into mybatisTest values (#{id},#{descM})
+</insert>
+```
+
+<p>
+    <img src="img/selectKey报错.png" alt="selectKey报错" style="display: block;
+width:804px;height:400px;margin-left: 0; margin-right: auto;">
+</p>
+
+按照字段解释来说keyColumn对应sql中的字段，keyProperty代表实体中的属性名。但是实际上这种改法会报错。并且resultType="mybatisTest"必须和inseret4传参一直，不然还是报错。这也就意味着，实际上在执行`selectKey`后，会把生成的`id,descM`回填到同一个对象中。(我尝试新建了类`MybatisTest2`修改参数去验证，都是错误的)
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run08
+
+## sql
+
+用来定义可重用的 SQL 代码段，可以包含在其他语句中
+
+```xml
+<sql id="baseColumn">
+   id, name, nikename, psw, status, mail, phone, type, register_time, login_time, last_login_time, login_count, bind_postion, salt, source
+</sql>
+```
+
+```xml
+<select id="selectByIdUserResultMapArg" resultMap="BaseResultMap4" parameterType="string">
+   select <include refid="baseColumn" /> from user where id = #{id}
+</select>
+```
+
+## \#{}和${}
+
+预编译 #{}：将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号，能够很大程度防止
+
+sql注入；
+
+传值 ${}：传入的数据直接显示生成在sql中，无法防止sql注入；
+
+表名、选取的列是动态的，order by和in操作， 可以考虑使用$
+
+[示例](../main/java/mapperconfig/mapper/UserMapper.java) 中的selectDyError和selectDy
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run09

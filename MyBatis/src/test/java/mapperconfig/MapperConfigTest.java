@@ -2,6 +2,7 @@ package mapperconfig;
 
 import lombok.SneakyThrows;
 import mapperconfig.dto.QueryUserDTO;
+import mapperconfig.entity.MybatisTest;
 import mapperconfig.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -82,5 +83,90 @@ public class MapperConfigTest {
 
         System.out.println("结果：" + mapper.selectByIdUserResultMapArg("1"));
     }
+
+    @SneakyThrows
+    @Test
+    public void run05(){
+        System.out.println("测试insert（不回填主键）");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        MybatisTest testInfo = new MybatisTest();
+        testInfo.setDescM("测试数据");
+        System.out.println("结果：" + mapper.inseret0(testInfo));
+        sqlSession.commit();
+        System.out.println("id结果：" + testInfo.getId());
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void run06(){
+        System.out.println("测试insert（回填主键）");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        MybatisTest testInfo = new MybatisTest();
+        testInfo.setDescM("测试数据");
+        System.out.println("结果：" + mapper.inseret1(testInfo));
+        sqlSession.commit();
+        System.out.println("id结果：" + testInfo.getId());
+    }
+
+    @SneakyThrows
+    @Test
+    public void run07(){
+        System.out.println("测试insert（selectKey）");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        MybatisTest testInfo = new MybatisTest();
+        testInfo.setDescM("测试数据");
+        System.out.println("结果：" + mapper.inseret3(testInfo));
+        sqlSession.commit();
+        System.out.println("id结果：" + testInfo.getId());
+    }
+
+    @SneakyThrows
+    @Test
+    public void run08(){
+        System.out.println("测试insert（回填主键多个）");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        MybatisTest testInfo = new MybatisTest();
+        //testInfo.setDescM("测试数据");
+        System.out.println("结果：" + mapper.inseret4(testInfo));
+        sqlSession.commit();
+        System.out.println("id结果：" + testInfo.getId());
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void run09(){
+        System.out.println("测试&和#");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        String column = "id, name, nikename, psw";
+        String table = "user";
+
+        System.out.println("正确结果：" + mapper.selectDy(column,table,"1"));
+        System.out.println("错误结果：" + mapper.selectDyError(column,table,"1 or 1 = 1"));
+    }
+
 
 }

@@ -33,7 +33,26 @@
 		</constructor>
 		<id column="id" property="id" />
 	</resultMap>
+	<insert id="inseret1" parameterType="MybatisTest" keyProperty="id" useGeneratedKeys="true">
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
+	<insert id="inseret0">
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
 
+	<insert id="inseret3">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select 500
+		</selectKey>
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
+
+	<insert id="inseret4">
+		<selectKey keyProperty="id,descM" keyColumn="id,descM" resultType="mybatisTest" order="BEFORE">
+			select  id + 20 as id,desc_m as descM from mybatisTest where id = 147
+		</selectKey>
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
 
 
 	<select id="selectById" resultType="mapperconfig.entity.User" parameterType="string">
@@ -55,8 +74,21 @@
 	</select>
 
 	<select id="selectByIdUserResultMapArg" resultMap="BaseResultMap4" parameterType="string">
-		select * from user where id = #{id}
+		select <include refid="baseColumn" /> from user where id = #{id}
 	</select>
+	<select id="selectDy" resultType="mapperconfig.entity.User">
+		select ${arg0} from ${arg1} where id = #{arg2}
+	</select>
+
+	<select id="selectDyError" resultType="mapperconfig.entity.User">
+		select ${arg0} from ${arg1} where id = ${arg2}
+	</select>
+
+	<sql id="baseColumn">
+		id, name, nikename, psw, status, mail, phone, type, register_time, login_time, last_login_time, login_count, bind_postion, salt, source
+	</sql>
+
+
 
 
 </mapper>

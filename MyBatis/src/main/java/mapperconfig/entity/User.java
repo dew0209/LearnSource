@@ -1,6 +1,7 @@
 package mapperconfig.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.type.Alias;
 
@@ -15,6 +16,10 @@ public class User {
     public User(@Param("mail") String mail, @Param("type") int type) {
         this.mail = mail;
         this.type = type;
+    }
+
+    public User() {
+
     }
 
 

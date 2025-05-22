@@ -6,6 +6,7 @@
     
     <typeAliases>
         <package name="mapperconfig.dto"/>
+        <package name="mapperconfig.entity"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
