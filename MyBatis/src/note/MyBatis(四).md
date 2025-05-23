@@ -257,3 +257,200 @@ sql注入；
 [示例](../main/java/mapperconfig/mapper/UserMapper.java) 中的selectDyError和selectDy
 
 [测试](../test/java/mapperconfig/MapperConfigTest.java)中的run09
+
+## 动态sql
+
+`if`：判断语句，单条件分支判断
+
+`choose、when、otherwise`：多条件分支判断
+
+`trim、where、set`：用于处理sql拼装问题
+
+`foreach`：循环语句，在in语句等列举条件常用，常用于实现批量操作
+
+
+
+```xml
+<select id="selectByCondition" resultType="mapperconfig.entity.User">
+   select * from user
+   where 1 = 1
+   <if test="name != null and name != '' ">
+      and name like concat('%',#{name},'%')
+   </if>
+   <if test="name != null and name != '' ">
+      and mail like concat('%',#{mail},'%')
+   </if>
+</select>
+```
+
+代码中，判断了name和mail的拼接条件。
+
+但是如果name和mail都没传。那么sql就变成了
+
+```sql
+select * from user where 
+```
+
+这是不对的，这个时候需要配合`where`元素使用。
+
+```xml
+<select id="selectByCondition2" resultType="mapperconfig.entity.User">
+   select * from user
+   <where>
+      <if test="name != null and name != '' ">
+         and name like concat('%',#{name},'%')
+      </if>
+      <if test="mail != null and mail != '' ">
+         and mail like concat('%',#{mail},'%')
+      </if>
+   </where>
+</select>
+```
+
+若子句的开头为 `AND 或 OR`，`where` 元素也会将它们去除。
+
+实际上，`where`等价于
+
+```xml
+<select id="selectByCondition3" resultType="mapperconfig.entity.User">
+   select * from user
+   <trim prefixOverrides="AND | OR" prefix="where">
+      <if test="name != null and name != '' ">
+         and name like concat('%',#{name},'%')
+      </if>
+      <if test="mail != null and mail != '' ">
+         and mail like concat('%',#{mail},'%')
+      </if>
+   </trim>
+</select>
+```
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run10
+
+
+
+
+
+在看看`set`
+
+```xml
+<update id="updateNameAndEmail">
+
+   update user set
+   <if test="name != null and name != ''">
+      name = #{name},
+   </if>
+   <if test="mail != null and mail != ''">
+      mail = #{mail}
+   </if>
+   where id = #{id}
+
+</update>
+```
+
+如果不传mail，语句就变成了
+
+```sql
+update user set name = ?, where id = ?
+```
+
+不符合sql。
+
+此时，换成`set`元素。
+
+```xml
+<update id="updateNameAndEmail1">
+
+   update user
+   <set>
+      <if test="name != null and name != ''">
+         name = #{name},
+      </if>
+      <if test="mail != null and mail != ''">
+         mail = #{mail}
+      </if>
+   </set>
+   where id = #{id}
+
+</update>
+```
+
+`set`等价于
+
+```xml
+<update id="updateNameAndEmail2">
+
+   update user
+   <trim prefix="set" suffixOverrides=",">
+      <if test="name != null and name != ''">
+         name = #{name},
+      </if>
+      <if test="mail != null and mail != ''">
+         mail = #{mail}
+      </if>
+   </trim>
+   where id = #{id}
+
+</update>
+```
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run11
+
+
+
+
+
+看下`foreach`
+
+```xml
+<insert id="insertForeach">
+   insert into mybatistest values
+   <foreach collection="list" separator="," item="testInfo">
+      (
+         #{testInfo.id},
+         #{testInfo.descM}
+      )
+   </foreach>
+</insert>
+```
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run12
+
+这里设计到一个点：`批量操作`
+
+在Mybatis中除了`foreach`可以批量操作，还有一种`BATCH`的方式
+
+```java
+SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);
+```
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run13
+
+这里，虽然事物是自动提交，但是对于BATCH方式，仍然需要手动提交。
+
+
+
+
+
+最后，看下`choose、when、otherwise`类似Java中的`switch case`
+
+```xml
+<select id="selectByCondition4" resultType="mapperconfig.entity.User">
+   select * from user
+   <trim prefixOverrides="AND | OR" prefix="where">
+      <choose>
+         <when test="name == 'ly'">
+            and name like concat('%lll',#{name},'lll%')
+         </when>
+         <when test="name == 'qy'">
+            and name like concat('%qqq',#{name},'qqq%')
+         </when>
+         <otherwise>
+            and name like concat('%',#{name},'%')
+         </otherwise>
+      </choose>
+   </trim>
+</select>
+```
+
+[测试](../test/java/mapperconfig/MapperConfigTest.java)中的run14

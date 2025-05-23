@@ -5,15 +5,14 @@ import mapperconfig.dto.QueryUserDTO;
 import mapperconfig.entity.MybatisTest;
 import mapperconfig.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class MapperConfigTest {
 
@@ -167,6 +166,126 @@ public class MapperConfigTest {
         System.out.println("正确结果：" + mapper.selectDy(column,table,"1"));
         System.out.println("错误结果：" + mapper.selectDyError(column,table,"1 or 1 = 1"));
     }
+
+    @SneakyThrows
+    @Test
+    public void run10(){
+        System.out.println("测试if,where");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        //System.out.println("正确结果：" + mapper.selectByCondition("","109"));
+        //System.out.println("正确结果：" + mapper.selectByCondition2("",""));
+        System.out.println("正确结果：" + mapper.selectByCondition3("",""));
+    }
+
+    @SneakyThrows
+    @Test
+    public void run11(){
+        System.out.println("测试if,set");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+//        System.out.println("结果：" + mapper.updateNameAndEmail("21089","","1"));
+//        System.out.println("结果：" + mapper.updateNameAndEmail1("21089","","1"));
+        System.out.println("结果：" + mapper.updateNameAndEmail2("210222289","","1"));
+        sqlSession.commit();
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void run12(){
+        System.out.println("测试foreach");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+//        System.out.println("结果：" + mapper.updateNameAndEmail("21089","","1"));
+//        System.out.println("结果：" + mapper.updateNameAndEmail1("21089","","1"));
+
+        List<MybatisTest> infoList = new ArrayList<>();
+
+        MybatisTest test1 = new MybatisTest();
+        test1.setId(2000);
+        test1.setDescM("你好呀");
+
+        infoList.add(test1);
+        MybatisTest test2 = new MybatisTest();
+        test2.setId(2001);
+        test2.setDescM("你好呀");
+        infoList.add(test2);
+        System.out.println("结果：" + mapper.insertForeach(infoList));
+        sqlSession.commit();
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void run13(){
+        System.out.println("测试foreach");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+//        System.out.println("结果：" + mapper.updateNameAndEmail("21089","","1"));
+//        System.out.println("结果：" + mapper.updateNameAndEmail1("21089","","1"));
+
+        List<MybatisTest> infoList = new ArrayList<>();
+
+        MybatisTest test1 = new MybatisTest();
+        test1.setId(2003);
+        test1.setDescM("你好呀111");
+
+        infoList.add(test1);
+        MybatisTest test2 = new MybatisTest();
+        test2.setId(2004);
+        test2.setDescM("你好呀222");
+        infoList.add(test2);
+        System.out.println("结果：" + mapper.insertForeach(infoList));
+
+
+
+        List<MybatisTest> infoList2 = new ArrayList<>();
+
+        MybatisTest test3 = new MybatisTest();
+        test3.setId(2005);
+        test3.setDescM("你好呀3333");
+
+        infoList2.add(test3);
+        MybatisTest test4 = new MybatisTest();
+        test4.setId(2006);
+        test4.setDescM("你好呀4444");
+        infoList2.add(test4);
+        System.out.println("结果：" + mapper.insertForeach(infoList2));
+
+        //ExecutorType.BATCH需要手动提交commit
+        sqlSession.commit();
+    }
+
+
+
+    @SneakyThrows
+    @Test
+    public void run14(){
+        System.out.println("测试choose when otherwise");
+        String resource = "mapperconfig/mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        //System.out.println("正确结果：" + mapper.selectByCondition("","109"));
+        //System.out.println("正确结果：" + mapper.selectByCondition2("",""));
+        System.out.println("正确结果：" + mapper.selectByCondition4("ly"));
+    }
+
 
 
 }

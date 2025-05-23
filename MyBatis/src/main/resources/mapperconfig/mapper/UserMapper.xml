@@ -55,6 +55,7 @@
 	</insert>
 
 
+
 	<select id="selectById" resultType="mapperconfig.entity.User" parameterType="string">
 		select * from user where id = #{id}
 	</select>
@@ -88,6 +89,119 @@
 		id, name, nikename, psw, status, mail, phone, type, register_time, login_time, last_login_time, login_count, bind_postion, salt, source
 	</sql>
 
+
+
+	<!-- 动态sql -->
+	<select id="selectByCondition" resultType="mapperconfig.entity.User">
+		select * from user
+		where 1 = 1
+		<if test="name != null and name != '' ">
+			and name like concat('%',#{name},'%')
+		</if>
+		<if test="mail != null and mail != '' ">
+			and mail like concat('%',#{mail},'%')
+		</if>
+	</select>
+
+	<select id="selectByCondition2" resultType="mapperconfig.entity.User">
+		select * from user
+		<where>
+			<if test="name != null and name != '' ">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="mail != null and mail != '' ">
+				and mail like concat('%',#{mail},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByCondition3" resultType="mapperconfig.entity.User">
+		select * from user
+		<trim prefixOverrides="AND | OR" prefix="where">
+			<if test="name != null and name != '' ">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="mail != null and mail != '' ">
+				and mail like concat('%',#{mail},'%')
+			</if>
+		</trim>
+	</select>
+
+
+
+	<update id="updateNameAndEmail">
+
+		update user set
+		<if test="name != null and name != ''">
+			name = #{name},
+		</if>
+		<if test="mail != null and mail != ''">
+			mail = #{mail}
+		</if>
+		where id = #{id}
+
+	</update>
+
+	<update id="updateNameAndEmail1">
+
+		update user
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="mail != null and mail != ''">
+				mail = #{mail}
+			</if>
+		</set>
+		where id = #{id}
+
+	</update>
+
+
+
+	<update id="updateNameAndEmail2">
+
+		update user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="mail != null and mail != ''">
+				mail = #{mail}
+			</if>
+		</trim>
+		where id = #{id}
+
+	</update>
+
+
+	<insert id="insertForeach">
+		insert into mybatistest values
+		<foreach collection="list" separator="," item="testInfo">
+			(
+				#{testInfo.id},
+				#{testInfo.descM}
+			)
+		</foreach>
+	</insert>
+
+
+	<select id="selectByCondition4" resultType="mapperconfig.entity.User">
+		select * from user
+		<trim prefixOverrides="AND | OR" prefix="where">
+			<choose>
+				<when test="name == 'ly'">
+					and name like concat('%lll',#{name},'lll%')
+				</when>
+				<when test="name == 'qy'">
+					and name like concat('%qqq',#{name},'qqq%')
+				</when>
+				<otherwise>
+					and name like concat('%',#{name},'%')
+				</otherwise>
+			</choose>
+		</trim>
+	</select>
 
 
 

@@ -33,4 +33,18 @@ public interface UserMapper {
 
     List<User> selectDy(String column, String table, String s);
     List<User> selectDyError(String column, String table, String s);
+
+
+    List<User> selectByCondition(@Param("name") String name,@Param("mail") String mail);
+    List<User> selectByCondition2(@Param("name") String name,@Param("mail") String mail);
+    List<User> selectByCondition3(@Param("name") String name,@Param("mail") String mail);
+    List<User> selectByCondition4(@Param("name") String name);
+
+
+    int updateNameAndEmail(@Param("name") String name,@Param("mail") String mail,@Param("id")String id);
+    int updateNameAndEmail1(@Param("name") String name,@Param("mail") String mail,@Param("id")String id);
+    int updateNameAndEmail2(@Param("name") String name,@Param("mail") String mail,@Param("id")String id);
+
+
+    int insertForeach(List<MybatisTest> mybatisTests);
 }
