@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapperconfig.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="mapperconfig.entity.User">
+		<constructor>
+			<idArg column="id" javaType="string"/>
+			<arg column="mail" javaType="string"/>
+		</constructor>
+
+	</resultMap>
+
+	<resultMap id="BaseResultMap2" type="mapperconfig.entity.User">
+		<constructor>
+			<arg column="mail" javaType="string"/>
+			<arg column="id" javaType="string"/>
+		</constructor>
+	</resultMap>
+
+	<resultMap id="BaseResultMap3" type="mapperconfig.entity.User">
+		<constructor>
+			<arg column="mail" name="mail"/>
+			<arg column="id" name="id"/>
+		</constructor>
+		<id column="name" property="name" />
+		<result column="type" property="type" />
+	</resultMap>
+
+	<resultMap id="BaseResultMap4" type="mapperconfig.entity.User">
+		<constructor>
+			<arg column="mail" name="mail"/>
+			<arg column="type" name="type"/>
+		</constructor>
+		<id column="id" property="id" />
+	</resultMap>
+	<insert id="inseret1" parameterType="MybatisTest" keyProperty="id" useGeneratedKeys="true">
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
+	<insert id="inseret0">
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
+
+	<insert id="inseret3">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select 500
+		</selectKey>
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
+
+	<insert id="inseret4">
+		<selectKey keyProperty="id,descM" keyColumn="id,descM" resultType="mybatisTest" order="BEFORE">
+			select  id + 20 as id,desc_m as descM from mybatisTest where id = 147
+		</selectKey>
+		insert into mybatisTest values (#{id},#{descM})
+	</insert>
+
+
+
+	<select id="selectById" resultType="mapperconfig.entity.User" parameterType="string">
+		select * from user where id = #{id}
+	</select>
+	<select id="selectByDTO" resultType="mapperconfig.entity.User">
+		select * from user where name like concat('%',#{dto.name},'%') and mail like concat('%',#{dto.mail},'%')
+	</select>
+	<select id="selectByDTOUseParamType" resultType="mapperconfig.entity.User" parameterType="QueryUserDTO">
+		select * from user where name like concat('%',#{name},'%') and mail like concat('%',#{mail},'%')
+	</select>
+	<select id="selectByDTOUseMap" resultType="mapperconfig.entity.User">
+
+		select * from user where name like concat('%',#{map.name},'%') and mail like concat('%',#{map.mail},'%')
+
+	</select>
+	<select id="selectByDTOBase" resultType="mapperconfig.entity.User">
+		select * from user where name like concat('%',#{param3.name},'%') and mail like concat('%',#{param2},'%')
+	</select>
+
+	<select id="selectByIdUserResultMapArg" resultMap="BaseResultMap4" parameterType="string">
+		select <include refid="baseColumn" /> from user where id = #{id}
+	</select>
+	<select id="selectDy" resultType="mapperconfig.entity.User">
+		select ${arg0} from ${arg1} where id = #{arg2}
+	</select>
+
+	<select id="selectDyError" resultType="mapperconfig.entity.User">
+		select ${arg0} from ${arg1} where id = ${arg2}
+	</select>
+
+	<sql id="baseColumn">
+		id, name, nikename, psw, status, mail, phone, type, register_time, login_time, last_login_time, login_count, bind_postion, salt, source
+	</sql>
+
+
+
+	<!-- 动态sql -->
+	<select id="selectByCondition" resultType="mapperconfig.entity.User">
+		select * from user
+		where 1 = 1
+		<if test="name != null and name != '' ">
+			and name like concat('%',#{name},'%')
+		</if>
+		<if test="mail != null and mail != '' ">
+			and mail like concat('%',#{mail},'%')
+		</if>
+	</select>
+
+	<select id="selectByCondition2" resultType="mapperconfig.entity.User">
+		select * from user
+		<where>
+			<if test="name != null and name != '' ">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="mail != null and mail != '' ">
+				and mail like concat('%',#{mail},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByCondition3" resultType="mapperconfig.entity.User">
+		select * from user
+		<trim prefixOverrides="AND | OR" prefix="where">
+			<if test="name != null and name != '' ">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="mail != null and mail != '' ">
+				and mail like concat('%',#{mail},'%')
+			</if>
+		</trim>
+	</select>
+
+
+
+	<update id="updateNameAndEmail">
+
+		update user set
+		<if test="name != null and name != ''">
+			name = #{name},
+		</if>
+		<if test="mail != null and mail != ''">
+			mail = #{mail}
+		</if>
+		where id = #{id}
+
+	</update>
+
+	<update id="updateNameAndEmail1">
+
+		update user
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="mail != null and mail != ''">
+				mail = #{mail}
+			</if>
+		</set>
+		where id = #{id}
+
+	</update>
+
+
+
+	<update id="updateNameAndEmail2">
+
+		update user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="mail != null and mail != ''">
+				mail = #{mail}
+			</if>
+		</trim>
+		where id = #{id}
+
+	</update>
+
+
+	<insert id="insertForeach">
+		insert into mybatistest values
+		<foreach collection="list" separator="," item="testInfo">
+			(
+			#{testInfo.id},
+			#{testInfo.descM}
+			)
+		</foreach>
+	</insert>
+
+
+	<select id="selectByCondition4" resultType="mapperconfig.entity.User">
+		select * from user
+		<trim prefixOverrides="AND | OR" prefix="where">
+			<choose>
+				<when test="name == 'ly'">
+					and name like concat('%lll',#{name},'lll%')
+				</when>
+				<when test="name == 'qy'">
+					and name like concat('%qqq',#{name},'qqq%')
+				</when>
+				<otherwise>
+					and name like concat('%',#{name},'%')
+				</otherwise>
+			</choose>
+		</trim>
+	</select>
+
+
+
+</mapper>
