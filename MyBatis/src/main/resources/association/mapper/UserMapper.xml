@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="association.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="association.entity.User" autoMapping="true">
+        <association property="type" columnPrefix="type_" javaType="type" >
+            <id property="id" column="id" />
+            <result property="descM" column="desc_m"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="association.entity.User" autoMapping="true">
+        <association fetchType="lazy" property="type" column="type" select="association.mapper.TypeMapper.getByPrimaryKey"/>
+    </resultMap>
+
+    <select id="selectAllOper1" resultMap="BaseResultMap">
+        select u.*,t.id as type_id,t.descM as type_desc_m
+            from user u left join type t on u.type = t.id
+    </select>
+
+    <select id="selectAllOper2" resultMap="BaseResultMap2">
+        select * from user
+    </select>
+</mapper>
