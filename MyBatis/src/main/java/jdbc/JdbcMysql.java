@@ -9,7 +9,7 @@ import java.util.Properties;
 public class JdbcMysql {
 
     //jdbc:mysql://ip:端口/库名
-    //jdbc:oracle:thin:@//192.168.202.154/zhfptest
+    //jdbc:oracle:thin:@//xxx.xxx.xxx.xx/xxxx
 
     public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/abtest";
     public static final String DB_USER = "root";

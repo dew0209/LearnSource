@@ -11,9 +11,9 @@ public class JdbcOracle {
 
     //jdbc:oracle:thin:@ip:端口/数据库
 
-    public static final String DB_URL = "jdbc:oracle:thin:@192.168.202.154:1521/zhfptestzh";
-    public static final String DB_USER = "qrhy_linux";
-    public static final String DB_PASSWORD = "abc123";
+    public static final String DB_URL = "jdbc:oracle:thin:@xxx.xxx.xxx.xxx:xx/xxxxx";
+    public static final String DB_USER = "xxx";
+    public static final String DB_PASSWORD = "xxxx";
 
 
     public static void main(String[] args) {
