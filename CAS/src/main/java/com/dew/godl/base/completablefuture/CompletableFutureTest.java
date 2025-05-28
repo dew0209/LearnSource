@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className CompletetableFutureTest

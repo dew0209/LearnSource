@@ -5,7 +5,7 @@ import lombok.ToString;
 import org.springframework.stereotype.Repository;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className TestDao

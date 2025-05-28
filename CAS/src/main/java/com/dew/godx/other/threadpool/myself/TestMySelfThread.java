@@ -3,7 +3,7 @@ package com.dew.godx.other.threadpool.myself;
 import java.util.Random;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className TestMySelfThread

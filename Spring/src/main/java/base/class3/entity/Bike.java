@@ -1,7 +1,7 @@
 package base.class3.entity;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className Bike

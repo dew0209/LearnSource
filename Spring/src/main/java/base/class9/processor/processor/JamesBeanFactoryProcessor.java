@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className JamesBeanFactoryProcessor

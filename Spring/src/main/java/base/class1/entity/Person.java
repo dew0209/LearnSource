@@ -3,7 +3,7 @@ package base.class1.entity;
 import lombok.Data;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className Person

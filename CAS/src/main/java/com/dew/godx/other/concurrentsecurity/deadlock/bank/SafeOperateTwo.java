@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.locks.Lock;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className SafeOperateTwo

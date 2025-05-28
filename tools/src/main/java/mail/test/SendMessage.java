@@ -16,7 +16,7 @@ import java.text.NumberFormat;
 import java.util.Properties;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className SendMessage

@@ -3,7 +3,7 @@ package com.dew.godl.increase.cas.lock;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className EightLock

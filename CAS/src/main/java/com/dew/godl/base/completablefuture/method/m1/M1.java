@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ * ”“
  *
  * @author LvLu
  * @className M1

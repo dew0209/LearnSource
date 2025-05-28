@@ -3,7 +3,7 @@ package com.dew.godl.increase.cas.unfairandfair;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className Main

@@ -3,7 +3,7 @@ package base.class1.componentscan.service;
 import org.springframework.stereotype.Service;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className OrderService

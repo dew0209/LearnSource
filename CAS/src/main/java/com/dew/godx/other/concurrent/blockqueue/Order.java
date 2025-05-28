@@ -1,7 +1,7 @@
 package com.dew.godx.other.concurrent.blockqueue;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className Order

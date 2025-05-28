@@ -10,7 +10,7 @@ import javax.annotation.Resources;
 import javax.inject.Inject;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className TestService

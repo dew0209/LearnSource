@@ -4,7 +4,7 @@ import base.class1.entity.Monkey;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className CustomFactoryBean

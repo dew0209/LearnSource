@@ -3,7 +3,7 @@ package base.class5.autowired.entity;
 import org.springframework.stereotype.Component;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ * ”“
  *
  * @author LvLu
  * @className Moon

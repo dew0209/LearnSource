@@ -4,7 +4,7 @@ import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className PutOrder

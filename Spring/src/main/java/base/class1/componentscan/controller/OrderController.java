@@ -3,7 +3,7 @@ package base.class1.componentscan.controller;
 import org.springframework.stereotype.Controller;
 
 /**
- * Copyright (c) by [安徽航天信息]
+ *
  *
  * @author LvLu
  * @className OrderController
