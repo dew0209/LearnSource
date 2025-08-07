@@ -1,0 +1,52 @@
+package activemq.onequickstart.way1;
+
+//import org.apache.activemq.ActiveMQConnection;
+//import org.apache.activemq.ActiveMQConnectionFactory;
+//
+//import javax.jms.*;
+
+public class JmsConsumer {
+
+//    private static final String USERNAME = ActiveMQConnection.DEFAULT_USER;
+//    private static final String PASSWORD = ActiveMQConnection.DEFAULT_PASSWORD;
+//    private static final String BROKER_URL = ActiveMQConnection.DEFAULT_BROKER_URL;
+//
+//    public static void main(String[] args) {
+//        //连接工厂
+//        ConnectionFactory connectionFactory;
+//
+//        //连接
+//        Connection connection;
+//
+//        //会话
+//        Session session;
+//
+//        //jms目的
+//        Destination destination;
+//
+//        //jms生产者
+//        MessageConsumer messageConsumer;
+//
+//        connectionFactory = new ActiveMQConnectionFactory(USERNAME,PASSWORD,BROKER_URL);
+//
+//        try {
+//            connection = connectionFactory.createConnection();
+//            connection.start();
+//            session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+//            //创建queue
+//            //destination = session.createQueue("HelloActiveMqQueue");
+//            //创建topic
+//            destination = session.createTopic("HelloActiveMqTopic");
+//            messageConsumer = session.createConsumer(destination);
+//            Message message;
+//            //主动去拉取消息
+//            while ((message = messageConsumer.receive()) != null){
+//                System.out.println(((TextMessage)message).getText());
+//            }
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+
+}
