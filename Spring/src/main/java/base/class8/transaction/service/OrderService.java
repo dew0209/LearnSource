@@ -3,6 +3,7 @@ package base.class8.transaction.service;
 import base.class8.transaction.dao.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -18,6 +19,7 @@ public class OrderService {
 	@Autowired
 	private OrderDao orderDao;
 
+	@Transactional
 	public void insert(){
 		orderDao.insert();
 	}
