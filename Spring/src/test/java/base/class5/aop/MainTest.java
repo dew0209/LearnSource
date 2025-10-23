@@ -19,8 +19,10 @@ public class MainTest {
 
 	@Test
 	public void div(){
-		String s = "1";
-		s.contains(null);
+		AnnotationConfigApplicationContext app = new AnnotationConfigApplicationContext(MainConfig.class);
+		CalcService bean = app.getBean(CalcService.class);
+		int div = bean.div(40, 0);
+		System.out.println(div);
 	}
 
 }

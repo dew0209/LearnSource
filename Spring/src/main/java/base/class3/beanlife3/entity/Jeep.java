@@ -1,5 +1,9 @@
 package base.class3.beanlife3.entity;
 
+import base.class3.beanlife2.entity.Train;
+import base.class5.autowired.entity.Moon;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -12,6 +16,10 @@ import javax.annotation.PreDestroy;
  * @description
  */
 public class Jeep {
+
+	@Autowired
+	private Train train;
+
 	public Jeep(){
 		System.out.println("===Jeep constructor===");
 	}
@@ -19,6 +27,7 @@ public class Jeep {
 	@PostConstruct
 	public void init(){
 		System.out.println("===Jeep 创建完成 @PostConstruct===");
+		System.out.println(train);
 	}
 
 	//@PreDestory：在bean被移除之前进行通知，在容器销毁之前进行清理工作

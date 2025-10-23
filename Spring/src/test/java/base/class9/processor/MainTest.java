@@ -17,6 +17,8 @@ public class MainTest {
 	@Test
 	public void run(){
 		AnnotationConfigApplicationContext app = new AnnotationConfigApplicationContext(MainConfig.class);
+		Object moon = app.getBean("moon");
+		System.out.println(moon);
 		app.close();
 	}
 
